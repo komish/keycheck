@@ -29,12 +29,14 @@ var (
 	specFile string // specFile flag
 	help     bool   // help flag. prevents pflag default behavior
 	version  bool   // version flag
+	debug    bool   // debug flag
 )
 
 func init() {
 	pflag.StringVarP(&specFile, "specfile", "s", "", "(REQUIRED) The specification file containing a list of\npaths to check in your json/yaml document. This can\nbe YAML or JSON.")
 	pflag.BoolVarP(&help, "help", "h", false, "Prints this help output.")
 	pflag.BoolVarP(&version, "version", "v", false, "Prints the version.")
+	pflag.BoolVar(&debug, "debug", false, "Prints additional debug output.")
 	// override default usage statement
 	pflag.Usage = printUsage
 }
@@ -84,12 +86,12 @@ func Run() int {
 	}
 
 	// Check for targets in each provided input file.
-	for _, v := range args {
-		fmt.Printf("============> Results for file: %s\n", v)
-		targetData, err := getInputFileContent(v)
+	for _, a := range args {
+		fmt.Printf("============> Results for file: %s\n", a)
+		targetData, err := getInputFileContent(a)
 		if err != nil {
 			// if get this, we don't want to terminate so we'll just skip the file.
-			fmt.Printf("ERROR: Unable to get target file at path %s.\n%s\n", v, err)
+			fmt.Printf("ERROR: Unable to get target file at path %s.\n%s\n", a, err)
 			continue
 		}
 		// gjson allows the use of dotnotation so we convert to json here
@@ -102,6 +104,14 @@ func Run() int {
 
 			// Get the result once and parse.
 			result := gjson.GetBytes(targetDataAsJSON, v.Path)
+			if debug {
+				fmt.Println("********** START DEBUG **********")
+				fmt.Println("DEBUG   (target): ", v.Path)
+				fmt.Println("DEBUG (required): ", v.Required)
+				fmt.Println("DEBUG   (result): ", result.Raw)
+				fmt.Println("DEBUG   (exists): ", result.Exists())
+				fmt.Println("*********** END DEBUG ***********")
+			}
 
 			// Default behavior is to print a warning message if we find something
 			// and expect it not to be there (i.e. "deprecation")
@@ -116,8 +126,8 @@ func Run() int {
 
 			// Based on what we found, print the message.
 			if printWarning {
-				fmt.Println()
 				fmt.Printf("   Item  %s\nMessage  %s\n", v.Path, v.Message)
+				fmt.Println()
 			}
 		}
 		fmt.Println()
