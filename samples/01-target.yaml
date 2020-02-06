@@ -1,0 +1,17 @@
+---
+groceries:
+  veg:
+  - broccoli
+  - carrots
+  drinks:
+    soda:
+    - Coke
+    - Sprite
+    tea:
+    - black
+    - green
+  fruits:
+  - apple
+  - orange
+  - pineapple
+  - grapefruit

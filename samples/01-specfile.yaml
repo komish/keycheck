@@ -1,0 +1,8 @@
+---
+- path: "groceries.fruits.#.grapefruit"
+  msg: "Why is grapefruit on the list! I don't like grapefruit."
+- path: "groceries.veg.#(celery)"
+  msg: "Celery not on the list! I'm trying to eat more celery."
+  required: true
+- path: "groceries.drinks.soda"
+  msg: "Skip buying sodas, drink tea instead."

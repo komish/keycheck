@@ -1,0 +1,5 @@
+---
+config:
+  hostPort: "127.0.0.1:8080"
+  appPath: "/home/app01/prod/"
+  appName: "app01"

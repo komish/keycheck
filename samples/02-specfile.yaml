@@ -1,0 +1,15 @@
+---
+- path: "config.hostPort"
+  msg: "FOUND config.hostPort has been deprecated. Please use separate `config.host` and `config.port`"
+- path: "config.appPath"
+  msg: "MISSING config.appPath is required"
+  required: true
+- path: "config.appName"
+  msg: "MISSING config.appName is required in upcoming releases and backwards compatible with current stable."
+  required: true
+- path: "config.host"
+  msg: "MISSING config.host is required in upcoming releases and backwards compatible with current stable."
+  required: true
+- path: "config.port"
+  msg: "MISSING config.port is required in upcoming releases and backwards compatible with current stable."
+  required: true
